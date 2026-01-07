@@ -1,0 +1,504 @@
+ANSIBLE INTERVIEW QUESTIONS & ANSWERS
+🟢 BEGINNER LEVEL (Foundations)
+1. What is Ansible?
+
+Answer:
+Ansible is an open-source automation tool used for configuration management, application deployment, and infrastructure automation. It is agentless and uses SSH.
+
+2. Why Ansible is agentless?
+
+Answer:
+Ansible does not require any agent on managed nodes.
+It uses SSH (Linux) and WinRM (Windows) to communicate.
+
+3. What language does Ansible use?
+
+Answer:
+Ansible playbooks are written in YAML.
+
+4. What is an inventory?
+
+Answer:
+Inventory is a file that contains the list of managed hosts or servers.
+
+Example:
+
+[web]
+server1
+server2
+
+5. What is a playbook?
+
+Answer:
+A playbook is a YAML file that defines what tasks to run and on which hosts.
+
+6. What is a module in Ansible?
+
+Answer:
+Modules are units of work in Ansible (e.g., copy, yum, service, ec2_instance).
+
+7. What is a task?
+
+Answer:
+A task is a single action executed using a module.
+
+8. What is idempotency?
+
+Answer:
+Idempotency means running the same playbook multiple times will not change the system if it's already in the desired state.
+
+9. Difference between playbook and role?
+
+Answer:
+
+Playbook	Role
+Single YAML file	Structured directory
+Hard to reuse	Reusable
+Small tasks	Production use
+10. What ports does Ansible use?
+
+Answer:
+
+Linux: 22 (SSH)
+
+Windows: 5985 / 5986 (WinRM)
+
+🟡 INTERMEDIATE LEVEL (Real Usage)
+11. What is a role in Ansible?
+
+Answer:
+Roles organize playbooks into a standard directory structure for reuse and readability.
+
+12. What are facts?
+
+Answer:
+Facts are system information collected by Ansible (IP, OS, CPU, memory).
+
+Command:
+
+ansible all -m setup
+
+13. What is ansible.cfg?
+
+Answer:
+Configuration file to control Ansible behavior like:
+
+inventory path
+
+SSH user
+
+Python interpreter
+
+14. What is Ansible Vault?
+
+Answer:
+Ansible Vault is used to encrypt sensitive data like passwords, API keys.
+
+Command:
+
+ansible-vault encrypt vault.yml
+
+15. Difference between vars, defaults, vars_files?
+
+Answer:
+
+Type	Priority
+defaults	Lowest
+vars	Medium
+vars_files	Higher
+16. What is handlers?
+
+Answer:
+Handlers are tasks that run only when notified, usually for service restart.
+
+17. What is when condition?
+
+Answer:
+Used for conditional execution of tasks.
+
+when: ansible_os_family == "RedHat"
+
+18. What is loop?
+
+Answer:
+Used to repeat a task multiple times.
+
+loop:
+  - nginx
+  - git
+
+19. Difference between include and import?
+
+Answer:
+
+include	import
+Dynamic	Static
+Run-time	Parse-time
+20. What is dynamic inventory?
+
+Answer:
+Inventory generated dynamically from cloud providers like AWS, GCP, Azure.
+
+🔵 ADVANCED LEVEL (Production)
+21. What is Ansible Galaxy?
+
+Answer:
+A repository for community Ansible roles.
+
+22. How Ansible works internally?
+
+Answer:
+
+Reads inventory
+
+Loads playbook
+
+Connects via SSH
+
+Executes modules
+
+Returns JSON output
+
+23. How do you manage multiple environments?
+
+Answer:
+Using:
+
+Separate inventories
+
+group_vars
+
+environment-specific vars
+
+24. What is delegate_to?
+
+Answer:
+Runs a task on another host, usually localhost.
+
+25. What is run_once?
+
+Answer:
+Runs a task only once, even with multiple hosts.
+
+26. What is Ansible Collections?
+
+Answer:
+A distribution format for modules, roles, plugins.
+
+Example:
+
+ansible-galaxy collection install amazon.aws
+
+27. How to debug Ansible playbooks?
+
+Answer:
+
+-vvv verbose mode
+
+debug module
+
+assert module
+
+28. What is check mode?
+
+Answer:
+Dry-run mode to see changes without applying.
+
+ansible-playbook play.yml --check
+
+29. Difference between shell and command module?
+
+Answer:
+
+command	shell
+No shell features	Supports pipes
+Secure	Less secure
+30. What is async and poll?
+
+Answer:
+Used for long-running tasks.
+
+🔴 SCENARIO-BASED QUESTIONS (MOST IMPORTANT)
+31. EC2 created but playbook fails — why?
+
+Answer:
+
+Missing IAM permissions
+
+Wrong AMI or region
+
+Missing boto3
+
+32. AMI ID error — how to fix?
+
+Answer:
+Use region-specific AMI.
+
+33. How do you secure AWS credentials?
+
+Answer:
+
+Ansible Vault
+
+Environment variables
+
+IAM roles (best practice)
+
+34. Playbook runs slowly — how to optimize?
+
+Answer:
+
+Use forks
+
+Disable fact gathering if not needed
+
+Use serial
+
+35. How to run playbook only on one host?
+
+Answer:
+
+run_once: true
+
+36. How to avoid hardcoding values?
+
+Answer:
+Use:
+
+variables
+
+vault
+
+group_vars
+
+37. How to restart service only if config changes?
+
+Answer:
+Use handlers.
+
+38. How to manage different OS packages?
+
+Answer:
+Use conditions with when.
+
+39. How to manage secrets in production?
+
+Answer:
+
+Ansible Vault
+
+External secret managers (AWS Secrets Manager)
+
+40. Policy as Code — how related to Ansible?
+
+Answer:
+Ansible enforces desired state and compliance using code instead of manual steps.
+
+⭐ BONUS: 2-Minute Interview Answer
+
+Ansible is an agentless automation tool used for configuration management and cloud automation.
+I used Ansible roles, Vault for secrets, dynamic inventory for AWS, and implemented idempotent playbooks following infrastructure-as-code principles.
+
+
+
+
+Below is a AWS + Ansible Mock Interview Pack that interviewers actually ask.
+You can read → remember → answer confidently.
+
+🔥 AWS + ANSIBLE INTERVIEW (MOCK + READY ANSWERS)
+🟢 PART 1: AWS + Ansible Basics
+1. How does Ansible interact with AWS?
+
+Answer:
+Ansible interacts with AWS using boto3 and botocore Python libraries and AWS APIs.
+It can authenticate using IAM user keys, environment variables, or IAM roles.
+
+2. Which Ansible collection is used for AWS?
+
+Answer:
+amazon.aws collection.
+
+ansible-galaxy collection install amazon.aws
+
+3. What are common AWS modules you used in Ansible?
+
+Answer:
+
+ec2_instance
+
+ec2_asg
+
+s3_bucket
+
+iam_role
+
+elb_target_group
+
+4. Do we need inventory for AWS provisioning?
+
+Answer:
+No.
+For AWS provisioning, playbooks usually run on localhost with connection: local.
+
+5. Why is gather_facts: false used in AWS playbooks?
+
+Answer:
+Because AWS tasks run on localhost, not on remote servers, and system facts are not required.
+
+🟡 PART 2: IAM, Security & Credentials
+6. Where should AWS credentials be stored?
+
+Best Answer:
+
+IAM Role (preferred)
+
+Environment variables
+
+AWS CLI config
+❌ Avoid hardcoding credentials in playbooks
+
+7. Why Abhishek didn’t use AWS keys in playbooks?
+
+Answer:
+Because he configured AWS using:
+
+aws configure
+
+
+Ansible automatically picks credentials from:
+~/.aws/credentials
+
+This follows security best practices.
+
+8. What is the best way to secure AWS keys in Ansible?
+
+Answer:
+
+Use IAM roles if running on EC2
+
+Else use Ansible Vault
+
+9. Why did you get UnauthorizedOperation error?
+
+Answer:
+The IAM user does not have required permissions like:
+
+ec2:DescribeInstances
+
+10. Minimum permissions to create EC2 using Ansible?
+
+Answer:
+
+ec2:RunInstances
+
+ec2:DescribeInstances
+
+ec2:CreateTags
+
+ec2:DescribeImages
+
+🔵 PART 3: EC2 + Real Errors (YOU FACED THESE 👌)
+11. What causes InvalidAMIID.NotFound error?
+
+Answer:
+AMI is region-specific.
+Using a us-east-1 AMI in us-west-2 will fail.
+
+12. Why boto3 error happened earlier?
+
+Answer:
+Because boto3 was not installed in the Python interpreter Ansible was using.
+
+13. How did you fix boto3 issue?
+
+Answer:
+
+Created Python virtual environment
+
+Installed boto3 & botocore
+
+Set ansible_python_interpreter
+
+14. Where is the correct place to define ansible_python_interpreter?
+
+Answer (Best Practice):
+In inventory:
+
+localhost ansible_python_interpreter=/path/to/venv/bin/python
+
+15. Why Ansible tried to decrypt vault during setup?
+
+Answer:
+Because encrypted variables were loaded globally (group_vars).
+
+🔴 PART 4: SCENARIO-BASED (MOST IMPORTANT)
+16. EC2 created but Ansible says failed — why?
+
+Answer:
+
+Partial success
+
+Post-check failed (DescribeInstances permission missing)
+
+17. How do you avoid SSH key issues after EC2 creation?
+
+Answer:
+
+Use correct key pair during instance creation
+
+Or use ssh-copy-id after instance is reachable
+
+18. Why ssh-copy-id failed with “No identities found”?
+
+Answer:
+Because private key path was incorrect or not loaded.
+
+19. How to manage multiple AWS environments?
+
+Answer:
+
+Separate inventories
+
+Separate AWS profiles
+
+Use variables per environment
+
+20. How Ansible supports Infrastructure as Code?
+
+Answer:
+All infrastructure definitions are written as YAML code, version-controlled, repeatable, and automated.
+
+🟣 PART 5: POLICY AS CODE (VERY IMPORTANT)
+21. What is Policy as Code (short & simple)?
+
+Answer:
+Policy as Code means enforcing rules and standards using code instead of manual checks.
+
+22. How Ansible supports Policy as Code?
+
+Answer:
+Ansible enforces:
+
+Package versions
+
+Security configs
+
+Compliance rules
+Automatically using playbooks.
+
+23. Example of Policy as Code?
+
+Answer:
+Ensuring:
+
+SSH root login disabled
+
+Only approved ports open
+
+Mandatory tagging on AWS resources
+
+FINAL INTERVIEW SUMMARY (Say This)
+
+I have hands-on experience with Ansible for AWS automation.
+I used roles, vault for secrets, IAM permissions, region-specific AMIs, and fixed real-world issues like boto3 errors, IAM access issues, and Python interpreter conflicts.
+I follow Infrastructure as Code and Policy as Code best practices.
