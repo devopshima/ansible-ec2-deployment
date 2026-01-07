@@ -17,7 +17,7 @@ Automated AWS EC2 infrastructure provisioning and application deployment using A
 
 ## Setup
 
-1. Configure AWS credentials using Ansible Vault:
+ Configure AWS credentials using Ansible Vault:
 ```bash
 ansible-vault create vault.yml
 
